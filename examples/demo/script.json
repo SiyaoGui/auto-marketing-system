@@ -1,0 +1,43 @@
+{
+  "title": "A clearer content workflow",
+  "topic": "content workflow",
+  "demo": true,
+  "scenes": [
+    {
+      "headline": "ONE IDEA.\nFOUR CHANNELS.",
+      "narration": "Start with one useful idea for one specific audience.",
+      "asset_id": null,
+      "fact_ids": []
+    },
+    {
+      "headline": "YOUR MATERIALS.\nYOUR MESSAGE.",
+      "narration": "Group your original product photos and clips in one folder.",
+      "asset_id": null,
+      "fact_ids": [
+        0
+      ]
+    },
+    {
+      "headline": "MAKE IT\nEASY TO FOLLOW.",
+      "narration": "Write one useful tip for one specific audience.",
+      "asset_id": null,
+      "fact_ids": [
+        1
+      ]
+    },
+    {
+      "headline": "CHECK.\nTHEN CONNECT.",
+      "narration": "Check the video before connecting a publishing account.",
+      "asset_id": null,
+      "fact_ids": [
+        2
+      ]
+    }
+  ],
+  "captions": {
+    "youtube": "Workflow demonstration. Not a real company advertisement. #ContentWorkflow",
+    "instagram": "Workflow demonstration. Not a real company advertisement. #ContentWorkflow",
+    "tiktok": "Workflow demonstration. Not a real company advertisement. #ContentWorkflow",
+    "xiaohongshu": "Workflow demonstration. Not a real company advertisement. #ContentWorkflow"
+  }
+}

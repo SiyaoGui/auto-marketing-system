@@ -1,0 +1,21 @@
+{
+  "id": "demo",
+  "name": "DEMO STUDIO",
+  "enabled": false,
+  "demo": true,
+  "language": "en",
+  "target_customer": "Small teams building a repeatable content workflow",
+  "offer": "Demonstration of a local video workflow; not a real company offer",
+  "approved_facts": ["Group your original product photos and clips in one folder.", "Write one useful tip for one specific audience.", "Check the video before connecting a publishing account."],
+  "cta": "Start with one brand and one clear message.",
+  "landing_url": "",
+  "accent": "#B8F5D1",
+  "videos_per_day": 1,
+  "auto_publish": false,
+  "facts_reviewed": false,
+  "allowed_terms": ["content workflow", "marketing", "video", "small business"],
+  "banned_phrases": ["guaranteed revenue", "100% guaranteed"],
+  "platforms": ["youtube", "instagram", "tiktok", "xiaohongshu"],
+  "youtube": {"enabled": false, "channel_id": "", "privacy": "private", "made_for_kids": false, "contains_synthetic_media": false},
+  "instagram": {"enabled": false, "account_id": "", "login": "facebook", "token_env": "DEMO_INSTAGRAM_TOKEN"}
+}

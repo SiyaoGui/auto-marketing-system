@@ -1,0 +1,21 @@
+{
+  "id": "replace_with_unique_id",
+  "name": "填写公司名称",
+  "enabled": false,
+  "demo": false,
+  "language": "zh-CN",
+  "target_customer": "填写目标客户和国家",
+  "offer": "填写产品、价格范围和主要用途",
+  "approved_facts": [],
+  "cta": "填写希望观众采取的下一步行动",
+  "landing_url": "",
+  "accent": "#B8F5D1",
+  "videos_per_day": 1,
+  "auto_publish": false,
+  "facts_reviewed": false,
+  "allowed_terms": [],
+  "banned_phrases": ["保证赚钱", "包治", "100%有效"],
+  "platforms": ["youtube", "instagram", "tiktok", "xiaohongshu"],
+  "youtube": {"enabled": false, "channel_id": "", "privacy": "private", "made_for_kids": false, "contains_synthetic_media": false},
+  "instagram": {"enabled": false, "account_id": "", "login": "facebook", "token_env": "YOUR_BRAND_INSTAGRAM_TOKEN"}
+}

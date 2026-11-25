@@ -1,0 +1,23 @@
+{
+  "title": "A clearer content workflow",
+  "caption": "Workflow demonstration. Not a real company advertisement. #ContentWorkflow",
+  "demo": true,
+  "topic": "content workflow",
+  "video": "output\\demo-2026-11-14-0\\video.mp4",
+  "video_sha256": "636dbbbb28d6738975efb1be1544325a7b4d31e7a49dbace33f9d9a38a05d6e9",
+  "tracking_url": "",
+  "target_account": "",
+  "quality": {
+    "passed": true,
+    "duration_seconds": 16.61,
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "codec": "h264",
+    "audio": "aac",
+    "captions": "scene-level burned captions and SRT",
+    "full_decode_passed": true,
+    "editorial_quality": "requires brand sample evaluation",
+    "demo": true
+  }
+}

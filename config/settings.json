@@ -1,0 +1,13 @@
+{
+  "timezone": "Europe/Copenhagen",
+  "generation_time": "09:00",
+  "publication_time": "18:00",
+  "max_jobs_per_tick": 4,
+  "poll_seconds": 60,
+  "llm": {"url": "http://127.0.0.1:11434", "model": "qwen3:4b", "timeout": 240},
+  "tts": {"engine": "windows", "voice": "", "piper_command": "piper", "piper_model": "", "voice_license_confirmed": false},
+  "media": {"width": 1080, "height": 1920, "fps": 30, "font": "", "ffmpeg": "", "min_seconds": 12, "max_seconds": 60},
+  "trends": {"countries": ["DK", "US"], "max_age_hours": 48, "searxng_url": "", "rss": [], "max_queries_per_brand": 3},
+  "platforms": {"instagram_api_version": "v27.0"},
+  "network_timeout": 25
+}

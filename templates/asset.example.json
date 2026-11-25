@@ -1,0 +1,4 @@
+[
+  {"id": "product-001", "brand_id": "YOUR_BRAND", "path": "assets/YOUR_BRAND/product.jpg", "tags": ["产品", "展示"], "rights": "owned", "commercial_use": true, "evidence": "公司自摄原图", "expires_at": null},
+  {"id": "product-002", "brand_id": "YOUR_BRAND", "path": "assets/YOUR_BRAND/product.mp4", "tags": ["教程"], "rights": "licensed", "commercial_use": true, "evidence": "填写可商用授权凭据", "expires_at": "2027-12-31"}
+]

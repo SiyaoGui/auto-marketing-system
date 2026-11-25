@@ -1,0 +1,4 @@
+brand_id,keyword,weight,language,intent
+demo,content workflow,5,en,education
+demo,marketing,3,en,education
+demo,video,2,en,education

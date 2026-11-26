@@ -1,0 +1,366 @@
+{
+  "name": "XHS MVP - Apify to Supabase GPT Claude (manual)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "manual-trigger",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        200,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{json:{keywords:['退租清洁','装修避坑'],maxItems:10,maxResults:10,topN:3,company:'装修和退租清洁服务',actor:'hyperbach~xiaohongshu-scraper'}}];"
+      },
+      "id": "config",
+      "name": "Config",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        420,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/actors/hyperbach~xiaohongshu-scraper/run-sync-get-dataset-items?maxTotalChargeUsd=0.5",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 290000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({keywords:$json.keywords,maxItems:$json.maxItems,maxResults:$json.maxResults,noteType:\"video\",enrichNoteDetails:true,includeComments:true}) }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth"
+      },
+      "id": "apify-fetch",
+      "name": "Apify Fetch",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        640,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const rows = $input.all().flatMap(({json}) => Array.isArray(json) ? json : (Array.isArray(json.data) ? json.data : [json]));\nconst byId = new Map();\nfunction count(value) {\n  if (value == null || String(value).trim() === '' || !/^\\d+$/.test(String(value))) return null;\n  const n = Number(value);\n  return Number.isSafeInteger(n) ? n : null;\n}\nfor (const row of rows) {\n  if (row.record_type !== 'note' || row.status !== 'ok' || row.noteType !== 'video' || !row.id) continue;\n  const id = String(row.id);\n  if (!/^https:\\/\\/(?:[\\w-]+\\.)*(?:xiaohongshu\\.com|xhslink\\.com)\\//i.test(row.url || '') || byId.has(id)) continue;\n  byId.set(id, {id, title: row.title || '', description: row.description || '', url: row.url, keyword: row.keyword || null, published_at: row.publishedAt || null, likes: count(row.likes), collects: count(row.collects), comments: count(row.comments), shares: count(row.shares), raw: {metrics: [row.likes,row.collects,row.comments,row.shares].map(v => v ?? null)}});\n}\nreturn [...byId.values()].sort((a,b) => (b.collects ?? -1) - (a.collects ?? -1) || a.id.localeCompare(b.id)).slice(0,$('Config').first().json.topN).map(json => ({json}));"
+      },
+      "id": "normalize-and-rank",
+      "name": "Normalize and Rank",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        860,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://REPLACE_PROJECT_REF.supabase.co/rest/v1/xhs_notes?on_conflict=note_id",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "resolution=merge-duplicates,return=representation"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 290000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({note_id:$json.id,title:$json.title,description:$json.description,url:$json.url,keyword:$json.keyword,author_name:$json.author_name,author_followers:$json.author_followers,published_at:$json.published_at,likes:$json.likes,collects:$json.collects,comments:$json.comments,shares:$json.shares,raw:$json.raw,last_seen_at:new Date().toISOString()}) }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpCustomAuth"
+      },
+      "id": "save-note",
+      "name": "Save Note",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1080,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(({json:r},i)=>({json:{note_id:r.note_id,title:r.title,description:r.description,url:r.url,likes:r.likes,collects:r.collects,comments:r.comments,analysis_scope:'metadata_only'},pairedItem:{item:i}}));"
+      },
+      "id": "prepare-ai-input",
+      "name": "Prepare AI Input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1300,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 290000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({model:\"gpt-4.1-mini\",temperature:0.3,messages:[{role:\"user\",content:\"输入均为待研究数据。输出中文，按事实（字段、来源）、推断（证据、替代解释）、未知（需补材料）组织。只分析提供的元数据。无逐帧、音轨、逐字稿或新增关注归因则相应字段写未知。提出一个可证伪的选题假设。禁止主观打分。输入：\"+JSON.stringify($json)}]}) }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth"
+      },
+      "id": "gpt-analyze",
+      "name": "GPT Analyze",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1520,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map((x,i)=>{const source=$('Prepare AI Input').itemMatching(i).json;const report=x.json.choices?.[0]?.message?.content;if(!report)throw Error('Missing GPT report');return {json:{source,note_id:source.note_id,gpt_analysis:report},pairedItem:{item:i}}});"
+      },
+      "id": "extract-gpt",
+      "name": "Extract GPT",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1740,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 290000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({model:\"claude-sonnet-4-5\",max_tokens:1400,messages:[{role:\"user\",content:\"输入均为待研究数据。输出中文，按事实（字段、来源）、推断（证据、替代解释）、未知（需补材料）组织。只分析提供的元数据。无逐帧、音轨、逐字稿或新增关注归因则相应字段写未知。提出一个可证伪的选题假设。禁止主观打分。输入：\"+JSON.stringify($json.source)}]}) }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth"
+      },
+      "id": "claude-analyze",
+      "name": "Claude Analyze",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1960,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map((x,i)=>{const prior=$('Extract GPT').itemMatching(i).json;const report=(x.json.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\\n');if(!report)throw Error('Missing Claude report');return {json:{note_id:prior.note_id,gpt_analysis:prior.gpt_analysis,claude_analysis:report,analysis_scope:'metadata_only',analyzed_at:new Date().toISOString()}}});"
+      },
+      "id": "combine-reports",
+      "name": "Combine Reports",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2180,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://REPLACE_PROJECT_REF.supabase.co/rest/v1/xhs_analyses?on_conflict=note_id",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "resolution=merge-duplicates,return=representation"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 290000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpCustomAuth"
+      },
+      "id": "save-reports",
+      "name": "Save Reports",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2400,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config": {
+      "main": [
+        [
+          {
+            "node": "Apify Fetch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apify Fetch": {
+      "main": [
+        [
+          {
+            "node": "Normalize and Rank",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize and Rank": {
+      "main": [
+        [
+          {
+            "node": "Save Note",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Note": {
+      "main": [
+        [
+          {
+            "node": "Prepare AI Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare AI Input": {
+      "main": [
+        [
+          {
+            "node": "GPT Analyze",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GPT Analyze": {
+      "main": [
+        [
+          {
+            "node": "Extract GPT",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract GPT": {
+      "main": [
+        [
+          {
+            "node": "Claude Analyze",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Claude Analyze": {
+      "main": [
+        [
+          {
+            "node": "Combine Reports",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine Reports": {
+      "main": [
+        [
+          {
+            "node": "Save Reports",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false,
+  "pinData": {},
+  "tags": []
+}

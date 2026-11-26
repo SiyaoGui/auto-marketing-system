@@ -1,0 +1,382 @@
+{
+  "Brands / 品牌库": {
+    "database": "https://app.notion.com/p/41cf58e7c06e80bfa952db48994ca79d?pvs=204",
+    "data_source": "collection://41cf58e7-c06e-8003-8616-000b0c04ee81",
+    "properties": {
+      "Brand ID": "auto_increment_id",
+      "产品与服务": "text",
+      "公司业务": "text",
+      "创意": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8134-bc15-000bcfb55ca8"
+      },
+      "制作任务": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8158-8336-000b1b6a57ed"
+      },
+      "发布平台": "multi_select",
+      "可用素材库": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8163-bdd9-000bdf569903"
+      },
+      "名称": "title",
+      "品牌定位": "text",
+      "品牌视觉规范": "text",
+      "对标视频": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-81e3-a40d-000ba47dc25a"
+      },
+      "灵感": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-81e2-849d-000b9dd60861"
+      },
+      "状态": "select",
+      "目标客户": "text",
+      "目标市场": "text",
+      "相关 Topic": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-81ba-97d5-000b77d9fddc"
+      },
+      "研究报告": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8114-bac4-000be405e63b"
+      },
+      "禁止使用的表达": "text",
+      "自动化键": "text",
+      "营销目标": "text",
+      "记录类型": "select",
+      "语言": "text"
+    }
+  },
+  "Content Ideas / 创意库": {
+    "database": "https://app.notion.com/p/41cf58e7c06e8153891ff3aeb96c78f0?pvs=204",
+    "data_source": "collection://41cf58e7-c06e-8134-bc15-000bcfb55ca8",
+    "properties": {
+      "Hook 设计": "text",
+      "Idea ID": "auto_increment_id",
+      "关联 Topic": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-81ba-97d5-000b77d9fddc"
+      },
+      "关联对标视频": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-81e3-a40d-000ba47dc25a"
+      },
+      "关联灵感": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-81e2-849d-000b9dd60861"
+      },
+      "关联素材": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8163-bdd9-000bdf569903"
+      },
+      "创作状态": "select",
+      "制作任务": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8158-8336-000b1b6a57ed"
+      },
+      "制作难度": "select",
+      "原创信息": "text",
+      "原创选题": "title",
+      "审核状态": "select",
+      "更新时间": "last_edited_time",
+      "核心信息": "text",
+      "目标受众": "text",
+      "缺失材料": "text",
+      "脚本": "text",
+      "自动化键": "text",
+      "视觉方向": "text",
+      "记录类型": "select",
+      "证据引用": "text",
+      "适用品牌": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8003-8616-000b0c04ee81"
+      },
+      "预计视频长度": "number"
+    }
+  },
+  "Production Tasks / 视频制作任务库": {
+    "database": "https://app.notion.com/p/41cf58e7c06e81219907e23610af79fc?pvs=204",
+    "data_source": "collection://41cf58e7-c06e-8158-8336-000b1b6a57ed",
+    "properties": {
+      "Blueprint 文件": "url",
+      "Task ID": "auto_increment_id",
+      "Topic": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-81ba-97d5-000b77d9fddc"
+      },
+      "任务名称": "title",
+      "创意": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8134-bc15-000bcfb55ca8"
+      },
+      "制作状态": "select",
+      "剪辑指令": "text",
+      "品牌": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8003-8616-000b0c04ee81"
+      },
+      "审核状态": "select",
+      "对标视频": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-81e3-a40d-000ba47dc25a"
+      },
+      "执行 ID": "text",
+      "更新时间": "last_edited_time",
+      "最终视频链接": "url",
+      "渲染结果": "url",
+      "目标平台": "select",
+      "素材": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8163-bdd9-000bdf569903"
+      },
+      "缺失材料": "text",
+      "脚本": "text",
+      "自动化键": "text",
+      "记录类型": "select",
+      "输出比例": "text",
+      "输出语言": "text",
+      "错误记录": "text",
+      "验证状态": "select"
+    }
+  },
+  "Research Reports / 研究报告库": {
+    "database": "https://app.notion.com/p/41cf58e7c06e81d8b0c9d5c7df024ed9?pvs=204",
+    "data_source": "collection://41cf58e7-c06e-8114-bac4-000be405e63b",
+    "properties": {
+      "Report ID": "auto_increment_id",
+      "Topic": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-81ba-97d5-000b77d9fddc"
+      },
+      "事实": "text",
+      "品牌": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8003-8616-000b0c04ee81"
+      },
+      "对标视频": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-81e3-a40d-000ba47dc25a"
+      },
+      "报告名称": "title",
+      "报告日期": "date",
+      "报告类型": "select",
+      "推断": "text",
+      "更新时间": "last_edited_time",
+      "未知": "text",
+      "样本量": "number",
+      "状态": "select",
+      "研究范围": "text",
+      "自动化键": "text",
+      "记录类型": "select",
+      "证据来源": "text"
+    }
+  },
+  "Asset Library / 素材库": {
+    "database": "https://app.notion.com/p/41cf58e7c06e8186936ec3617e29e582?pvs=204",
+    "data_source": "collection://41cf58e7-c06e-8163-bdd9-000bdf569903",
+    "properties": {
+      "AI 生成示意": "checkbox",
+      "Asset ID": "auto_increment_id",
+      "人物或产品": "text",
+      "关联创意": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8134-bc15-000bcfb55ca8"
+      },
+      "关联对标视频": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-81e3-a40d-000ba47dc25a"
+      },
+      "内容描述": "text",
+      "分辨率": "text",
+      "制作任务": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8158-8336-000b1b6a57ed"
+      },
+      "可用状态": "select",
+      "可用语言": "text",
+      "场景": "text",
+      "授权到期": "date",
+      "授权范围": "text",
+      "授权证据": "url",
+      "文件哈希": "text",
+      "文件存储位置": "url",
+      "文件类型": "select",
+      "文件链接": "url",
+      "更新时间": "last_edited_time",
+      "版权与使用权限": "select",
+      "画面比例": "text",
+      "素材名称": "title",
+      "自动化键": "text",
+      "视觉风格": "text",
+      "视频时长": "number",
+      "记录类型": "select",
+      "适用 Topic": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-81ba-97d5-000b77d9fddc"
+      },
+      "适用品牌": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8003-8616-000b0c04ee81"
+      }
+    }
+  },
+  "Reference Videos / 对标视频库": {
+    "database": "https://app.notion.com/p/41cf58e7c06e815d8ef1d8c3606305d0?pvs=204",
+    "data_source": "collection://41cf58e7-c06e-81e3-a40d-000ba47dc25a",
+    "properties": {
+      "Hook 类型": "text",
+      "Reference ID": "auto_increment_id",
+      "Topic": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-81ba-97d5-000b77d9fddc"
+      },
+      "作者": "text",
+      "关注引导方式": "text",
+      "关联创意": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8134-bc15-000bcfb55ca8"
+      },
+      "关联灵感": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-81e2-849d-000b9dd60861"
+      },
+      "关联素材": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8163-bdd9-000bdf569903"
+      },
+      "关键帧存储位置": "url",
+      "内容类型": "text",
+      "分享数": "number",
+      "分析状态": "select",
+      "分析证据": "text",
+      "制作任务": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8158-8336-000b1b6a57ed"
+      },
+      "剪辑节奏": "text",
+      "原始媒体链接": "url",
+      "原始指标文本": "text",
+      "发布时间": "date",
+      "媒体处理权限": "select",
+      "字体风格": "text",
+      "封面": "url",
+      "平台": "select",
+      "指标精度": "select",
+      "播放量": "number",
+      "收藏数": "number",
+      "数据来源": "text",
+      "更新时间": "last_edited_time",
+      "标题": "title",
+      "正文": "text",
+      "点赞数": "number",
+      "画面布局": "text",
+      "研究报告": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8114-bac4-000be405e63b"
+      },
+      "笔记唯一 ID": "text",
+      "筛选依据": "text",
+      "粉丝数": "number",
+      "自动化键": "text",
+      "色彩风格": "text",
+      "视频 URL": "url",
+      "视频时长": "number",
+      "视频结构": "text",
+      "记录类型": "select",
+      "评论数": "number",
+      "话题标签": "text",
+      "适用品牌": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8003-8616-000b0c04ee81"
+      },
+      "适用场景": "text",
+      "采集时间": "date",
+      "采集状态": "select"
+    }
+  },
+  "Inspiration Library / 灵感库": {
+    "database": "https://app.notion.com/p/41cf58e7c06e81c8be1bf32d0ab8607c?pvs=204",
+    "data_source": "collection://41cf58e7-c06e-81e2-849d-000b9dd60861",
+    "properties": {
+      "Inspiration ID": "auto_increment_id",
+      "人工保护": "checkbox",
+      "关联创意": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8134-bc15-000bcfb55ca8"
+      },
+      "关联对标视频": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-81e3-a40d-000ba47dc25a"
+      },
+      "创作可行性": "text",
+      "文案参考": "text",
+      "更新时间": "last_edited_time",
+      "来源": "text",
+      "来源类型": "select",
+      "核心创意": "text",
+      "灵感名称": "title",
+      "状态": "select",
+      "用户情绪": "text",
+      "自动化键": "text",
+      "视觉参考": "text",
+      "记录类型": "select",
+      "适用 Topic": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-81ba-97d5-000b77d9fddc"
+      },
+      "适用品牌": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8003-8616-000b0c04ee81"
+      }
+    }
+  },
+  "Topics / 选题元词库": {
+    "database": "https://app.notion.com/p/41cf58e7c06e81d083dcf7b524c634ed?pvs=204",
+    "data_source": "collection://41cf58e7-c06e-81ba-97d5-000b77d9fddc",
+    "properties": {
+      "Topic ID": "auto_increment_id",
+      "主题名称": "title",
+      "优先级": "select",
+      "关联创意": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8134-bc15-000bcfb55ca8"
+      },
+      "关联对标视频": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-81e3-a40d-000ba47dc25a"
+      },
+      "关联灵感": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-81e2-849d-000b9dd60861"
+      },
+      "关联素材": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8163-bdd9-000bdf569903"
+      },
+      "关键词": "text",
+      "内容目标": "text",
+      "制作任务": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8158-8336-000b1b6a57ed"
+      },
+      "同义词": "text",
+      "已有研究": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8114-bac4-000be405e63b"
+      },
+      "更新时间": "last_edited_time",
+      "最近研究时间": "date",
+      "状态": "select",
+      "用户痛点": "text",
+      "目标客户": "text",
+      "自动化键": "text",
+      "行业": "text",
+      "记录类型": "select",
+      "适用品牌": {
+        "type": "relation",
+        "target": "collection://41cf58e7-c06e-8003-8616-000b0c04ee81"
+      }
+    }
+  }
+}

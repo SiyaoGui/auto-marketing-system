@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "project_id": "dk-service-internal-preview-2026-11-20",
+  "brand_id": "41df58e7c06e8121a5e3d3aa472c0f7a",
+  "topic_id": "41df58e7c06e81578386f8590805d23c",
+  "reference_video_ids": [
+    "41df58e7c06e81d7a0bfee36ccef6e83"
+  ],
+  "asset_ids": [
+    "41ef58e7c06e81c4b972cce9da7439c9"
+  ],
+  "target_platform": "xiaohongshu",
+  "aspect_ratio": "9:16",
+  "resolution": {
+    "width": 720,
+    "height": 1280
+  },
+  "target_duration": 20.3,
+  "language": "zh",
+  "scenes": [
+    {
+      "scene_id": "s1",
+      "start_time": 0,
+      "duration": 2.3,
+      "asset_id": "41ef58e7c06e81c4b972cce9da7439c9",
+      "source_in": 50,
+      "source_out": 52.3,
+      "crop_mode": "contain",
+      "focal_point": [
+        0.5,
+        0.5
+      ],
+      "text_overlay": "先看问题：灶台上的污迹",
+      "font_style": "body",
+      "text_position": [
+        0.5,
+        0.09
+      ],
+      "animation": "none",
+      "transition": "cut",
+      "narration": "",
+      "audio_cue": "silent",
+      "creative_purpose": "展示源片真实污迹，不虚构原因",
+      "is_illustration": false
+    },
+    {
+      "scene_id": "s2",
+      "start_time": 2.3,
+      "duration": 4,
+      "asset_id": "41ef58e7c06e81c4b972cce9da7439c9",
+      "source_in": 52.5,
+      "source_out": 56.5,
+      "crop_mode": "contain",
+      "focal_point": [
+        0.5,
+        0.5
+      ],
+      "text_overlay": "再看过程：擦拭灶台表面",
+      "font_style": "body",
+      "text_position": [
+        0.5,
+        0.09
+      ],
+      "animation": "none",
+      "transition": "cut",
+      "narration": "",
+      "audio_cue": "silent",
+      "creative_purpose": "接入真实操作，保留原始动作",
+      "is_illustration": false
+    },
+    {
+      "scene_id": "s3",
+      "start_time": 6.3,
+      "duration": 4,
+      "asset_id": "41ef58e7c06e81c4b972cce9da7439c9",
+      "source_in": 24,
+      "source_out": 28,
+      "crop_mode": "contain",
+      "focal_point": [
+        0.5,
+        0.5
+      ],
+      "text_overlay": "细节镜头：水龙头擦拭",
+      "font_style": "body",
+      "text_position": [
+        0.5,
+        0.09
+      ],
+      "animation": "none",
+      "transition": "cut",
+      "narration": "",
+      "audio_cue": "silent",
+      "creative_purpose": "用近景展示另一个工作位置",
+      "is_illustration": false
+    },
+    {
+      "scene_id": "s4",
+      "start_time": 10.3,
+      "duration": 3,
+      "asset_id": "41ef58e7c06e81c4b972cce9da7439c9",
+      "source_in": 33,
+      "source_out": 36,
+      "crop_mode": "contain",
+      "focal_point": [
+        0.5,
+        0.5
+      ],
+      "text_overlay": "结果镜头：洗手盆",
+      "font_style": "body",
+      "text_position": [
+        0.5,
+        0.09
+      ],
+      "animation": "none",
+      "transition": "cut",
+      "narration": "",
+      "audio_cue": "silent",
+      "creative_purpose": "展示实际结果，不宣称量化效果",
+      "is_illustration": false
+    },
+    {
+      "scene_id": "s5",
+      "start_time": 13.3,
+      "duration": 4,
+      "asset_id": "41ef58e7c06e81c4b972cce9da7439c9",
+      "source_in": 85,
+      "source_out": 89,
+      "crop_mode": "contain",
+      "focal_point": [
+        0.5,
+        0.5
+      ],
+      "text_overlay": "拉远一点：厨房全景",
+      "font_style": "body",
+      "text_position": [
+        0.5,
+        0.09
+      ],
+      "animation": "none",
+      "transition": "cut",
+      "narration": "",
+      "audio_cue": "silent",
+      "creative_purpose": "从局部转向空间，不把异机位包装成严格对比",
+      "is_illustration": false
+    },
+    {
+      "scene_id": "s6",
+      "start_time": 17.3,
+      "duration": 3,
+      "asset_id": "41ef58e7c06e81c4b972cce9da7439c9",
+      "source_in": 90,
+      "source_out": 93,
+      "crop_mode": "contain",
+      "focal_point": [
+        0.5,
+        0.5
+      ],
+      "text_overlay": "下一次补拍：同机位前后对比",
+      "font_style": "body",
+      "text_position": [
+        0.5,
+        0.09
+      ],
+      "animation": "none",
+      "transition": "cut",
+      "narration": "",
+      "audio_cue": "silent",
+      "creative_purpose": "记录本次素材审查发现的缺口",
+      "is_illustration": false
+    }
+  ],
+  "subtitles": [],
+  "typography": {
+    "body": {
+      "family": "Microsoft YaHei",
+      "size_ratio": 0.03,
+      "color": "#FFFFFF",
+      "stroke_color": "#000000",
+      "stroke_width": 1
+    }
+  },
+  "transitions": [],
+  "audio": [],
+  "brand_elements": [],
+  "output_settings": {
+    "container": "mp4",
+    "video_codec": "h264",
+    "fps": 30,
+    "audio_codec": "aac"
+  },
+  "approval_status": "draft",
+  "missing_materials": []
+}

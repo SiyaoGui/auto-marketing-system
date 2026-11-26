@@ -95,4 +95,4 @@ GPT 只使用输入证据包。Claude 独立复核每项证据是否足以支持
 
 只使用品牌真实资料和已有授权素材。AI 示意必须标示意；缺素材写【待补：需要什么】。AI 实验者内容标出原创实验信息。
 
-制作阶段：以品牌和 Topic 关系筛选对标，列出命中的痛点、受众和可迁移手法。优先采用人工灵感，仅使用授权覆盖目标用途的素材。输出原创旁白、逐镜分镜及 JSON scenes，每镜含 asset_id、source_in_ms、source_out_ms、timeline_in_ms、timeline_out_ms、headline、narration、fact_ids。校验素材范围、时长、时间轴连续和品牌事实后才能交给渲染器。缺素材返回 blocked 与缺口。发布另行审核。
+制作阶段：以品牌和 Topic 关系筛选对标，列出命中的痛点、受众和可迁移手法。优先采用人工灵感，仅使用授权覆盖目标用途的素材。输出原创旁白及符合 ../intelligence/blueprint.schema.json 的 JSON 分镜，时间单位为秒；每镜给出素材、剪辑区间、字幕、画面及创作目的。用 core.validate_blueprint 验证后交给渲染器。缺素材返回 blocked 与缺口。发布另行审核。

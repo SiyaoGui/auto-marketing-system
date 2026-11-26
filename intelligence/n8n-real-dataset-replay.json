@@ -1,0 +1,87 @@
+{
+  "name": "DK Service | A | Real dataset replay",
+  "active": false,
+  "nodes": [
+    {
+      "id": "7205a0e2-7d01-5197-a561-ca2975a4228d",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "afaa8fd1-0ebe-5107-bacd-842510b49f3b",
+      "name": "Load actual Apify snapshot",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        0
+      ],
+      "parameters": {
+        "jsCode": "return [{json: {\"source_run_id\": \"cQyC37yEd8EOE3aD7\", \"rows\": [{\"record_type\": \"note\", \"status\": \"ok\", \"noteType\": \"video\", \"likes\": 12, \"collects\": 7, \"comments\": 3, \"shares\": 4, \"countsExact\": true, \"scraped_at\": \"2026-11-19T11:16:59Z\", \"url\": \"https://www.xiaohongshu.com/explore/6abbd750000000000f03ad4d\", \"id\": \"6abbd750000000000f03ad4d\"}, {\"record_type\": \"target\", \"status\": \"ok\", \"noteType\": null, \"likes\": null, \"collects\": null, \"comments\": null, \"shares\": null, \"countsExact\": null, \"scraped_at\": \"2026-11-19T11:16:59Z\", \"url\": null, \"id\": null}, {\"record_type\": \"note\", \"status\": \"ok\", \"noteType\": \"video\", \"likes\": 849, \"collects\": 156, \"comments\": 45, \"shares\": 40, \"countsExact\": true, \"scraped_at\": \"2026-11-19T11:17:01Z\", \"url\": null, \"id\": null}, {\"record_type\": \"note\", \"status\": \"ok\", \"noteType\": \"video\", \"likes\": 1, \"collects\": 0, \"comments\": 0, \"shares\": 0, \"countsExact\": true, \"scraped_at\": \"2026-11-19T11:17:02Z\", \"url\": null, \"id\": null}, {\"record_type\": \"note\", \"status\": \"ok\", \"noteType\": \"video\", \"likes\": 0, \"collects\": 0, \"comments\": 4, \"shares\": 0, \"countsExact\": true, \"scraped_at\": \"2026-11-19T11:17:04Z\", \"url\": null, \"id\": null}, {\"record_type\": \"note\", \"status\": \"ok\", \"noteType\": \"video\", \"likes\": 0, \"collects\": 0, \"comments\": 20, \"shares\": 0, \"countsExact\": true, \"scraped_at\": \"2026-11-19T11:17:04Z\", \"url\": null, \"id\": null}, {\"record_type\": \"note\", \"status\": \"ok\", \"noteType\": \"video\", \"likes\": 1198, \"collects\": 91, \"comments\": 64, \"shares\": 13, \"countsExact\": true, \"scraped_at\": \"2026-11-19T11:17:04Z\", \"url\": null, \"id\": null}, {\"record_type\": \"note\", \"status\": \"ok\", \"noteType\": \"video\", \"likes\": 0, \"collects\": 0, \"comments\": 0, \"shares\": 0, \"countsExact\": true, \"scraped_at\": \"2026-11-19T11:17:09Z\", \"url\": null, \"id\": null}, {\"record_type\": \"note\", \"status\": \"ok\", \"noteType\": \"video\", \"likes\": 0, \"collects\": 0, \"comments\": 41, \"shares\": 0, \"countsExact\": true, \"scraped_at\": \"2026-11-19T11:17:09Z\", \"url\": null, \"id\": null}, {\"record_type\": \"note\", \"status\": \"ok\", \"noteType\": \"video\", \"likes\": 0, \"collects\": 0, \"comments\": 0, \"shares\": 0, \"countsExact\": true, \"scraped_at\": \"2026-11-19T11:17:09Z\", \"url\": null, \"id\": null}, {\"record_type\": \"note\", \"status\": \"ok\", \"noteType\": \"video\", \"likes\": 10, \"collects\": 2, \"comments\": 1, \"shares\": 1, \"countsExact\": true, \"scraped_at\": \"2026-11-19T11:17:09Z\", \"url\": null, \"id\": null}, {\"record_type\": \"note\", \"status\": \"ok\", \"noteType\": \"video\", \"likes\": 0, \"collects\": 0, \"comments\": 0, \"shares\": 0, \"countsExact\": true, \"scraped_at\": \"2026-11-19T11:17:09Z\", \"url\": null, \"id\": null}, {\"record_type\": \"target\", \"status\": \"ok\", \"noteType\": null, \"likes\": null, \"collects\": null, \"comments\": null, \"shares\": null, \"countsExact\": null, \"scraped_at\": \"2026-11-19T11:17:09Z\", \"url\": null, \"id\": null}]}}];"
+      }
+    },
+    {
+      "id": "229c50c5-b70a-5496-a5eb-9801173d3fa9",
+      "name": "Validate discovery rows",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        0
+      ],
+      "parameters": {
+        "jsCode": "const input = $input.first().json;\nconst rows = input.rows;\nif (!Array.isArray(rows)) throw new Error('Invalid snapshot: rows must be an array');\nconst accepted = [], quarantine = [], duplicates = [];\nconst seen = new Set();\nlet ignored = 0;\nconst cleanCount = (value) => Number.isSafeInteger(value) && value >= 0 ? value : null;\nfor (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {\n  const row = rows[rowIndex];\n  if (row?.record_type === 'target') { ignored++; continue; }\n  let reason;\n  if (row?.record_type !== 'note' || row.status !== 'ok') reason = 'not_successful_note';\n  else if (row.noteType !== 'video') reason = 'not_video';\n  else if (!row.url) reason = 'missing_original_url';\n  else if (!/^[a-f0-9]{24}$/.test(row.id ?? '') ||\n      !(new RegExp('^https?://www\\\\.(xiaohongshu|rednote)\\\\.com/(explore|discovery/item)/' + row.id + '$')).test(row.url)) {\n    reason = 'invalid_original_url_or_id';\n  }\n  if (reason) { quarantine.push({row_index: rowIndex, reason}); continue; }\n  const key = `xiaohongshu:${row.id}`;\n  if (seen.has(key)) { duplicates.push({row_index: rowIndex, key}); continue; }\n  seen.add(key);\n  accepted.push({key, original_url: row.url, likes: cleanCount(row.likes),\n    saves: cleanCount(row.collects), comments: cleanCount(row.comments), shares: cleanCount(row.shares),\n    counts_exact: typeof row.countsExact === 'boolean' ? row.countsExact : null,\n    views: null, collected_at: row.scraped_at ?? null});\n}\nreturn [{json: {mode: 'actual_snapshot_replay', source_run_id: input.source_run_id,\n  input_rows: rows.length, accepted_count: accepted.length, quarantined_count: quarantine.length,\n  ignored_count: ignored, duplicate_count: duplicates.length, empty: rows.length === 0,\n  accepted, quarantine, duplicates}}];"
+      }
+    },
+    {
+      "id": "c7553520-e6b3-5fe0-b3dd-f349a949f996",
+      "name": "Scope",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -200
+      ],
+      "parameters": {
+        "content": "## 实际采集数据回放\n基于 Apify 真实历史运行 cQyC37yEd8EOE3aD7。只校验原始数据结构和隔离规则。无外部调用，无凭证，无发布，无定时任务。",
+        "width": 540,
+        "height": 140
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Load actual Apify snapshot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load actual Apify snapshot": {
+      "main": [
+        [
+          {
+            "node": "Validate discovery rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true
+  },
+  "pinData": {}
+}
